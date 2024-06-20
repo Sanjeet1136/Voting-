@@ -1,0 +1,33 @@
+Voting application functionality
+What??
+1.sign in / sign up
+2. list of candidates
+3. vote on of the candidates
+4. vote only once by one person
+5. route which shows list of candidates and their live votes
+6. user data must contain unique goverment id proof : citizenship/voter card id
+7. there should be one admin to handle the application
+8. user can change the password 
+9. user can login with only voter id and password
+10. admin can't vote
+----------------------------------------------------------------
+
+Routes
+
+User Authentication
+/signup: POST - create an account
+/login: POST - login to account
+
+Voting:
+/candidates: GET - get the list of candidates
+/candidateID: POST - vote the candidate
+
+User Profile
+/profile: GET - get the user profile information
+/profile/password: PUT - change the password
+
+Admin management
+/candidates: POST - create a new candidate
+/candidates/candidateID: PUT - update the candidate
+/candidates/candidateID: Delete - delete the candidate
+
