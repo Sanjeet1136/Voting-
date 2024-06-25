@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const { validate } = require('./candidate');
 
 
 const userSchema = new mongoose.Schema({
@@ -12,7 +13,9 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     email: {
-        type: String
+        type: String,
+        unique: true,
+        required: true
     },
     mobile: {
         type: String
@@ -22,9 +25,9 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     citizenshipNumber: {
-        type: Number,
+        type: String,
         required: true,
-        unqiue: true
+        unique: true
     },
     password: {
         type: String,
@@ -42,24 +45,20 @@ const userSchema = new mongoose.Schema({
 });
 
 
-userSchema.pre('save', async function(next){
-    const person = this;
+userSchema.pre('save', async function(next) {
+    const user = this;
 
+    if (!user.isModified('password')) return next();
 
-    if(!person.isModified('password')) return next();
-    try{
-
+    try {
         const salt = await bcrypt.genSalt(10);
-
-
-        const hashedPassword = await bcrypt.hash(person.password, salt);
-        
-        person.password = hashedPassword;
+        const hashedPassword = await bcrypt.hash(user.password, salt);
+        user.password = hashedPassword;
         next();
-    }catch(err){
-        return next(err);
+    } catch (error) {
+        return next(error);
     }
-})
+});
 
 userSchema.methods.comparePassword = async function(candidatePassword){
     try{

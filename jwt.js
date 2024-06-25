@@ -23,3 +23,4 @@ const generateToken = (userData) =>{
 }
 
 module.exports = {jwtAuthMiddleware, generateToken};
+
