@@ -137,10 +137,19 @@ router.get('/vote/count', async (req, res) => {
     }
 });
 
-
+/**
+ * @swagger
+ * /candidate:
+ *  get: 
+ *      summary:  
+ *      description: This api is used to check if get method is working or not
+ *      responses:
+ *          200:
+ *              description: To test get method 
+ */
 router.get('/', async (req, res) => {
     try {
-        const candidates = await Candidate.find({}, 'name party -_id');
+        const candidates = await Candidate.find({}, 'name party _id');
         res.status(200).json(candidates);
     } catch (err) {
         console.error(err);

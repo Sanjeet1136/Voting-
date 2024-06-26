@@ -44,7 +44,7 @@ const signup = async (req, res) =>{
         console.log(JSON.stringify(payload));
         const token = generateToken(payload);
 
-        res.status(200).json({response: response, token: token});
+        res.status(200).json({response: response});
     }
     catch(err){
         console.log(err);
@@ -69,14 +69,19 @@ const login = async(req, res) => {
             return res.status(401).json({error: 'Invalid Citizenship Number or Password'});
         }
 
-       
         const payload = {
             id: user.id,
         }
         const token = generateToken(payload);
 
-        
-        res.json({token})
+        res.status(200).json({
+            user: {
+              id: user._id,
+              name: user.name,
+              token: token
+            }
+    });
+
     }catch(err){
         console.error(err);
         res.status(500).json({ error: 'Internal Server Error' });
